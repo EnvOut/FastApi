@@ -1,7 +1,5 @@
 from typing import List, Tuple
-
 import yaml
-
 
 class ConfigProvider:
 
