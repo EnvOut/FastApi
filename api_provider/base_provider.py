@@ -1,13 +1,12 @@
-from functools import reduce
+http_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
 
-http_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
 
 class BaseProvider:
     def is_valid(self): pass
 
     # def call_method(self): pass
 
-    def execute(self, params, **kwargs): pass
+    def execute(self, **config): pass
 
 
 class AbstractAllowedParametersChecker:
@@ -15,11 +14,13 @@ class AbstractAllowedParametersChecker:
         self.allowed_parameters = allowed_parameters
 
     def is_allowed(self, method: str) -> bool:
-        pass
+        raise NotImplemented()
 
     def is_all_allowed(self, params: list) -> bool:
-        return reduce(lambda x, y: True if x is False or y is False else False,
-                      filter(lambda param: not self.is_allowed(param), params))
+        not_allowed_params = [p for p in params if not self.is_allowed(p)]
+        # filtered = [p for p in params if self.is_allowed(p)]
+        # filtered = filter(lambda param: not self.is_allowed(param), params)
+        return len(not_allowed_params) == 0
 
 
 class AnyAllowedParametersChecker(AbstractAllowedParametersChecker):

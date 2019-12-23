@@ -1,4 +1,5 @@
 # app = Flask(__name__)
+from copy import deepcopy
 from pprint import pprint
 
 # @app.route('/')
@@ -20,55 +21,45 @@ from pprint import pprint
 #     print('{} {}'.format(todo_item['id'], todo_item['summary']))
 from functools import reduce
 
+from api_provider.base_provider import BaseProvider
+from api_provider.proxy_provider import ProxyProvider
+from managers.manager import LocalCommonManager
+from parser.providers import YamlConfigProvider, ConfigProvider
+from provider.provider_factories import DefaultProviderFactory, ProviderFactory
+from web.api_generator import WaitressFluskServerProxyBuilder
+from web.endpoint.endpoint_factory import CommonEndpointFactory
+import os
+
 if __name__ == '__main__':
-    # app.route(route)(view_func)
-    # app.view_functions["/hello"] = "hello resp"
-    # app.view_functions["/hello"] = lambda r: "hello resp"
-    print("start")
+    checker = None
 
-    from flask import Flask
-
-    app: Flask = Flask(__name__, instance_relative_config=True)
-
-    # from collections import defaultdict
-    #
-    # l = []
-    # l.append(f)
-    # l.append(s)
-    #
-    # d = defaultdict(list)
-    #
-    # d[f].append("hello f")
-    # d[f].append("hello f2")
-    #
-    # d[s].append("hello s1")
-
-    # print(d)
-    # hello.lol = "rrr"
-    # print(**hello)
-    # print("end main")
-    # l = ['e', 'l', 'l', 'o']
-    # reduce1 = reduce(lambda x, y: x + y, l, 'h')
-
-    # app.add_url_rule('/users', "users_get", get_handler, {"methods": ['GET']})
-    # app.add_url_rule('/users', "users_post", post_handler, {"methods": ['POST']})
-
-    pprint(app.view_functions)
-
-    resources = ["users", "files", "metas"]
-
-    for r in resources:
-        path = f"/{r}"
-        @app.route(path, methods=["GET"], endpoint=f"get_{r}")
-        def get_users():
-            return "get"
+    config_provider: ConfigProvider = YamlConfigProvider('config.yml')
+    endpoints_definition, providers_definition = config_provider.read()
 
 
-        @app.route(path, methods=["POST"], endpoint=f"post_{r}")
-        def post_users():
-            return "post"
+    def get_provider_map(providers_definition:dict) -> dict:
+        factories = [DefaultProviderFactory(name, definition) for name, definition in providers_definition.items()]
+        filtered_factories = [f for f in factories if f.is_valid()]
+        providers = [x.get_provider() for x in filtered_factories]
+        return reduce(lambda m, p: {**m, f'{p.name}': p}, providers, {})
 
-    app.run()
-    from waitress import serve
 
-    # serve(app, host="0.0.0.0", port=8080)
+    provider_map = get_provider_map(providers_definition)
+
+
+    def get_endpoints():
+        endpoint_factories = [CommonEndpointFactory(providers=provider_map, name=n, definition=d)
+                              for n, d in endpoints_definition.items()]
+        filtered_factories = [f for f in endpoint_factories if f.is_valid()]
+        # filtered_factories = filter(lambda x: x.is_valid(), endpoint_factories)
+        return map(lambda x: x.create_endpoint(), filtered_factories)
+
+
+    endpoints = get_endpoints()
+
+    server_builder = WaitressFluskServerProxyBuilder()
+    for e in endpoints:
+        server_builder.add_endpoint(e)
+
+    local_common_manager = LocalCommonManager(server_builder)
+    local_common_manager.run()

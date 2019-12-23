@@ -1,36 +1,39 @@
-from collections import deque, defaultdict
+from collections import defaultdict
 from functools import reduce
-from typing import NamedTuple, Dict, Callable, List, Any
+from typing import NamedTuple, Callable, List
 
-from flask import request
 
-from api_provider.base_provider import AbstractAllowedParametersChecker, BaseProvider
-
+# class Endpoint(NamedTuple):
+#     name: str
+#     handler: Callable
+#     methods: List = []
+#     paths: List = []
+#
+#     # def add_handler(self, handler: Callable):
+#     #     midpoint = len(self.handlers) // 2  # for 7 items, after the 3th
+#     #     lst = self.handlers[0:midpoint] + deque(handler) + self.handlers[midpoint:]
+#     #
+#     # def add_pre_handler(self, handler: Callable):
+#     #     self.handlers.appendleft(handler)
+#     #     return self
+#     #
+#     # def add_post_handler(self, handler: Callable):
+#     #     self.handlers.append(handler)
+#
+#     def add_path(self, path: str):
+#         self.paths.append(path)
+#
+#     def __add__(self, o):
+#         if self.handler is not o.handler:
+#             raise ValueError("Handler are not the same")
+#         Endpoint(handler=self.handler, methods=self.methods + o.methods, paths=self.paths + o.paths)
 
 class Endpoint(NamedTuple):
+    path: str
     name: str
+    # provider: BaseProvider
     handler: Callable
-    methods: List = []
-    paths: List = []
-
-    # def add_handler(self, handler: Callable):
-    #     midpoint = len(self.handlers) // 2  # for 7 items, after the 3th
-    #     lst = self.handlers[0:midpoint] + deque(handler) + self.handlers[midpoint:]
-    #
-    # def add_pre_handler(self, handler: Callable):
-    #     self.handlers.appendleft(handler)
-    #     return self
-    #
-    # def add_post_handler(self, handler: Callable):
-    #     self.handlers.append(handler)
-
-    def add_path(self, path: str):
-        self.paths.append(path)
-
-    def __add__(self, o):
-        if self.handler is not o.handler:
-            raise ValueError("Handler are not the same")
-        Endpoint(handler=self.handler, methods=self.methods + o.methods, paths=self.paths + o.paths)
+    method: str
 
 
 class ServerBuilder(object):
@@ -39,7 +42,7 @@ class ServerBuilder(object):
     def add_endpoint(self, endpoint: Endpoint):
         pass
 
-    def build_and_run(self, port):
+    def build_and_run(self):
         map_path_endpoints = defaultdict(list)
 
         for e in self.endpoints:
@@ -52,7 +55,7 @@ class ServerBuilder(object):
 
         for path, entities in map_path_endpoints.items():
             endpoint: Endpoint = reduce(lambda x, y: x + y, entities)
-            app.add_url_rule(path, endpoint.name, endpoint.handler, methods=endpoint.methods)
+            app.add_url_rule(path, endpoint.name, endpoint.handler, methods=endpoint.method)
 
         # index.methods = ['GET', 'OPTIONS']
 
@@ -60,7 +63,6 @@ class ServerBuilder(object):
         # app.add_url_rule('/', 'index2', index, {"methods": ['GET', 'OPTIONS']})
 
         print(app.url_map)
-        print(app.view_functions['index2'])
 
         from waitress import serve
 
@@ -68,29 +70,39 @@ class ServerBuilder(object):
 
 
 class WaitressFluskServerProxyBuilder(ServerBuilder):
-    endpoints = []
+    endpoints: List[Endpoint] = []
 
-    def __init__(self, checker: AbstractAllowedParametersChecker):
-        self.checker = checker
+    def __init__(self, **server_config):
+        self.server_config = server_config
+        from flask import Flask
+        self.__application: Flask = Flask(__name__, instance_relative_config=True)
 
-    def add_endpoint(self, path, name, proxy):
-        self.endpoints.append({'path': path, 'name': name, 'proxy': proxy})
+    def add_endpoint(self, endpoint: Endpoint):
+        self.endpoints.append(endpoint)
 
     def build(self):
-        from flask import Flask
-        app: Flask = Flask(__name__, instance_relative_config=True)
-
-        def create_endpoint(path=None, name=None, proxy: BaseProvider = None, methods=None):
-            @app.route(path, methods=methods, endpoint=f"{name}")
+        def create_endpoint(path=None, name=None, handler: Callable = None, method=None):
+            # def create_endpoint(path=None, name=None, provider: BaseProvider = None, methods=None):
+            @self.__application.route(path, methods=[method], endpoint=f"{name}")
             def execute():
-                return proxy.execute(request.method, request.args)
+                from flask import request
+                resp = handler(request)
+                return resp, 200
 
-        for path, name, proxy in self.endpoints:
-            create_endpoint(path, name, proxy, self.checker.allowed_parameters)
+        for path, name, handler, method in self.endpoints:
+            create_endpoint(path, name, handler, method)
+            # create_endpoint(path, name, provider, self.checker.allowed_parameters)
 
+    def run(self):
         from waitress import serve
 
-        serve(app, host="0.0.0.0", port=8080)
+        host = self.server_config.get('host', "0.0.0.0")
+        port = self.server_config.get('port', 8080)
+        serve(self.__application, host=host, port=port)
+
+    def build_and_run(self):
+        self.build()
+        self.run()
 
 
 # class WaitressFluskServerBuilder(ServerBuilder):

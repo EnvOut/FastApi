@@ -1,44 +1,28 @@
 endpoints:
   first:
-    provider: proxy1
-    path: first
+    provider: httpbin
+    path: /first
+
+  first2:
+    provider: httpbin
+    path: /first2
+
   second:
     provider:
-      provider: postgres
-      sql: select * from customers
-  proxy1:
-    provider: httpbin
-    path: /get
-    method: GET
-
-  proxy2:
-    provider: httpbin2
-    path: /get
-
-  users_get:
-    provider: httpbin
-    path: /users
-    method:
-      - GET
-      - OPTION
-
-  users_post:
-    provider: httpbin
-    path: /users
-    method:
-      - POST
-
+      ref: postgres
+      sql: select * from users
+    path: /customers
+  third:
+    provider:
+      ref: postgres
+      sql: select * from users
+      is_single: false
+    path: /customers2
 
 providers:
-  google-main-page:
-    type: proxy
-    path: google.com
-    shema: https
-    method: GET
-
   httpbin:
     type: proxy
-    path: httpbin.org
+    path: httpbin.org/get
     shema: https
     allowed:
       methods:
@@ -46,22 +30,17 @@ providers:
         - POST
       parameters:
         - cat
-
-  httpbin2:
-    type: proxy
-    path: httpbin.org
-    allowed:
-      methods:
-        - GET
-        - POST
+        - param1
 
   postgres:
     type: postgres
     user:
-      root
+      qwerty
     password:
-      root
+      qwerty
     db:
-      some
+      new
+    port:
+      10432
     allowed:
       parameters: false
