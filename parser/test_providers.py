@@ -1,12 +1,13 @@
 from pprint import pprint
 from unittest import TestCase
-from providers import YamlProvider
+
+from parser.providers import YamlConfigProvider
 
 
 class TestYamlProvider(TestCase):
     def test_read(self):
 
-        provider = YamlProvider(r'../config.yml')
+        provider = YamlConfigProvider(r'config.yml')
         provider.read()
 
         pprint(provider.endpoints)
