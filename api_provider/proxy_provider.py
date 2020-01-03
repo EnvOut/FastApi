@@ -44,9 +44,6 @@ class ProxyProvider(BaseProvider):
         self._methods = set([m.upper() for m in allowed.get('methods', default_allowed_methods)])
 
         self._config['is_allowed_params'], self._config['params'] = parse_allowed_parameters(allowed.get('parameters'))
-        # self._config['is_allowed_params'] = allowed.get('parameters', 'True').lower() == 'true'
-
-        # self._method = kwargs.get('method', 'GET').upper()
 
     def is_valid(self):
         return bool(self._path) and self.__verify_methods()

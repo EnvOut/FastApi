@@ -12,6 +12,8 @@ endpoints:
       ref: postgres
       sql: select * from users
     path: /customers
+    method: GET
+
   third:
     provider:
       ref: postgres

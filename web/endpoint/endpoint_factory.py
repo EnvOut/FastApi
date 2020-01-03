@@ -63,9 +63,7 @@ class CommonEndpointFactory(EndpointFactory):
 
                 def handle_request(req):
                     return provider.execute(request=req, **provider_definition)
-                    # return provider.execute(config=**{**req.__dict__, **provider_definition})
 
-                # handler = lambda req: self.__providers[provider_ref].execute({**req, **provider_definition})
                 handler = handle_request
 
             return Endpoint(name=self.__name, path=path, handler=handler, method=method)

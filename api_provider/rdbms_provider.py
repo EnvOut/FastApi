@@ -36,25 +36,8 @@ class PostgresProvider(BaseProvider):
         # make params mutable
         params = {**params}
 
-        # def pop_dict(map:dict, key:str, default_value):
-        #     # result = default_value
-        #
-        #     result = map.pop(key, default_value)
-        #     # if mapped_value:
-        #     #     result = mapped_value
-        #     #     map.pop(key, None)
-        #         # del map
-        #     return result
-
         offset = params.pop('offset', 0)
         limit = params.pop('limit', 10)
-        # offset = pop_dict(params,'offset', 0)
-        # limit = pop_dict(params,'limit', 10)
-
-        # limit = params.get('limit', 10)
-        # params.pop('limit')
-
-        # base_part = 'Select * from users'
 
         where_part = None
         if len(params.keys()) > 0:
@@ -63,10 +46,6 @@ class PostgresProvider(BaseProvider):
             where_part = " WHERE " + " and ".join(rr)
 
         paging_part = f'OFFSET {offset} LIMIT {limit}'
-        # sql += " WHERE " + " and ".join("=".join(_) for _ in params.items())
-        # table = Table('table')
-        # sql = Query.select('Select * from users').where('name' == 'Serhii').getSql()
-        # pprint(sql)
 
         sql = f'{base_part} {where_part} {paging_part}'
         return sql
