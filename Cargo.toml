@@ -1,0 +1,22 @@
+[workspace]
+members = [
+    "apigen_app",
+    "common",
+    "config",
+    "web",
+    "contract",
+]
+
+#log = { version = "0.4", features = ["max_level_debug", "release_max_level_warn"] }
+
+[profile.dev]
+
+[profile.release]
+lto = true
+debug = 1
+incremental = false
+#
+#[patch.crates-io]
+#servo-freetype-sys = { path = "servo-freetype-proxy" }
+#
+

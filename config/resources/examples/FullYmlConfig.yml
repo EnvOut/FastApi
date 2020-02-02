@@ -1,0 +1,70 @@
+endpoints:
+  first:
+    provider: httpbin
+    path: /first
+    auth:
+      ref: mego_proxy
+      roles:
+        - user
+        - admin
+
+  first2:
+    provider: httpbin
+    path: /first2
+
+  second:
+    provider:
+      ref: postgres
+      sql: select * from users
+    path: /customers
+    method: GET
+
+  third:
+    provider:
+      ref: postgres
+      sql: select * from users
+      is_single: false
+    path: /customers2
+
+providers:
+  httpbin:
+    type: proxy
+    path: httpbin.org/get
+    shema: https
+    allowed:
+      methods:
+        - GET
+        - POST
+      parameters:
+        - cat
+        - param1
+
+  postgres:
+    type: postgres
+    user:
+      qwerty
+    password:
+      qwerty
+    db:
+      new
+    port:
+      10432
+    allowed:
+      parameters: false
+
+auth:
+  siber_static_base:
+    kind: static
+    provider: "some.provider.com/auth"
+    base_auth:
+      login: user
+      password: qwerty
+
+  siber_static_token:
+    kind: static
+    provider: "some.provider.com/auth"
+    token: "some_super_token"
+
+  mego_proxy:
+    kind: proxy
+    provider: "proxy.com/auth"
