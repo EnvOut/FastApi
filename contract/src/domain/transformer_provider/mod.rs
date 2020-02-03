@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+pub mod chain_transformer;
+
 pub trait TransformerProvider {}
 
 pub struct TransformerProviderRegistry {

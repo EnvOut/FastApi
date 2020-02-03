@@ -7,6 +7,8 @@ pub mod data_provider;
 pub mod auth_provider;
 pub mod endpoint;
 pub mod transformer_provider;
+pub mod web;
+
 
 pub struct RootConfig {
     pub endpoint_registry: EndpointRegistry,
