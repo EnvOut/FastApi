@@ -68,3 +68,14 @@ auth:
   mego_proxy:
     kind: proxy
     provider: "proxy.com/auth"
+
+transform:
+  postgres:
+    header:
+      add:
+        - X-ORG-REG: token
+      remove:
+        - X-GARBAGE: some
+    json:
+      add:
+        - name: Alexander Pushkin

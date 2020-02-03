@@ -49,3 +49,4 @@ target/*
 /**/target
 RUST/RustBookRus/introduction/targe
 Cargo.lockt
+/.idea/
