@@ -13,22 +13,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="347bfeac-601b-4d05-b4b9-261c875b7c41" name="Default Changelist" comment="created new YAML example with endpoints, dataprovider, auth and transformer">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/config/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/resources/examples/FullYmlConfig.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/resources/examples/FullYmlConfig.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/src/transforms_parser.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/config/src/lib.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/src/yaml_reader.rs" beforeDir="false" afterPath="$PROJECT_DIR$/config/src/yaml_reader.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/tests/yaml_reader_test.rs" beforeDir="false" afterPath="$PROJECT_DIR$/config/tests/yaml_reader_test.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/contract/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/src/domain/auth_provider/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/domain/auth_provider/mod.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/src/domain/data_provider/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/domain/data_provider/mod.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/src/domain/data_provider/mongo_data_provider.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/domain/data_provider/mongo_data_provider.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/src/domain/data_provider/postgres_data_provider.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/domain/data_provider/postgres_data_provider.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/src/domain/data_provider/proxy_data_provider.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/domain/data_provider/proxy_data_provider.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/src/domain/endpoint/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/domain/endpoint/mod.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/src/domain/transformer_provider/chain_transformer.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/domain/transformer_provider/chain_transformer.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/src/domain/transformer_provider/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/domain/transformer_provider/mod.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/src/domain/web/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/domain/web/mod.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +68,7 @@
       <recent name="$PROJECT_DIR$/config/tests/resources/examples" />
     </key>
   </component>
-  <component name="RunManager" selected="Cargo Command.Test yaml_reader::tests::postgres_transformers_should_be_correct">
+  <component name="RunManager" selected="Cargo Command.Test transforms_parser::tests::postgres_transformers_should_be_correct">
     <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
       <option name="channel" value="DEFAULT" />
       <option name="command" value="run" />
@@ -121,9 +108,9 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test tdd::should_read_providers" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+    <configuration name="Test transforms_parser::tests::postgres_transformers_should_be_correct" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package apigen_config --test yaml_reader_test tdd::should_read_providers -- --exact" />
+      <option name="command" value="test --package apigen_config --lib transforms_parser::tests::postgres_transformers_should_be_correct -- --exact" />
       <option name="allFeatures" value="false" />
       <option name="nocapture" value="false" />
       <option name="emulateTerminal" value="false" />
@@ -162,19 +149,19 @@
     </configuration>
     <list>
       <item itemvalue="Cargo Command.Run" />
-      <item itemvalue="Cargo Command.Test tdd::should_read_providers" />
       <item itemvalue="Cargo Command.Test tdd" />
       <item itemvalue="Cargo Command.Test tdd::should_read_auth_providers" />
       <item itemvalue="Cargo Command.Test yaml_lib::read_equals" />
       <item itemvalue="Cargo Command.Test yaml_reader::tests::postgres_transformers_should_be_correct" />
+      <item itemvalue="Cargo Command.Test transforms_parser::tests::postgres_transformers_should_be_correct" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Cargo Command.Test transforms_parser::tests::postgres_transformers_should_be_correct" />
         <item itemvalue="Cargo Command.Test yaml_reader::tests::postgres_transformers_should_be_correct" />
         <item itemvalue="Cargo Command.Test yaml_lib::read_equals" />
         <item itemvalue="Cargo Command.Test tdd" />
         <item itemvalue="Cargo Command.Test tdd::should_read_auth_providers" />
-        <item itemvalue="Cargo Command.Test tdd::should_read_providers" />
       </list>
     </recent_temporary>
   </component>
@@ -262,22 +249,22 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="396" y="130" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1580683692230" />
-    <state width="1638" height="274" key="GridCell.Tab.0.bottom" timestamp="1581575943277">
+    <state width="1638" height="274" key="GridCell.Tab.0.bottom" timestamp="1581576489053">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="274" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1581575943277" />
-    <state width="1638" height="274" key="GridCell.Tab.0.center" timestamp="1581575943276">
+    <state width="1638" height="274" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1581576489053" />
+    <state width="1638" height="274" key="GridCell.Tab.0.center" timestamp="1581576489051">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="274" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1581575943276" />
-    <state width="1638" height="274" key="GridCell.Tab.0.left" timestamp="1581575943275">
+    <state width="1638" height="274" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1581576489051" />
+    <state width="1638" height="274" key="GridCell.Tab.0.left" timestamp="1581576489051">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="274" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1581575943275" />
-    <state width="1638" height="274" key="GridCell.Tab.0.right" timestamp="1581575943276">
+    <state width="1638" height="274" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1581576489051" />
+    <state width="1638" height="274" key="GridCell.Tab.0.right" timestamp="1581576489052">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state width="1638" height="274" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1581575943276" />
+    <state width="1638" height="274" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1581576489052" />
     <state width="1638" height="363" key="GridCell.Tab.1.bottom" timestamp="1581575899315">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
@@ -317,17 +304,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/config/src/yaml_reader.rs</url>
-          <line>39</line>
+          <line>41</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/config/src/yaml_reader.rs</url>
-          <line>27</line>
+          <line>29</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/config/src/yaml_reader.rs</url>
-          <line>34</line>
+          <line>36</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
