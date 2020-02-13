@@ -10,6 +10,7 @@ pub struct StaticAuthProvider {}
 
 impl AuthProvider for StaticAuthProvider {}
 
+#[warn(dead_code)]
 pub struct AuthProviderRegistry {
     key_value_idx: HashMap<String, Box<dyn AuthProvider>>,
     proxy_auth_idx: Vec<ProxyAuthProvider>,

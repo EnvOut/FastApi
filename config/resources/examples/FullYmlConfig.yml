@@ -69,13 +69,16 @@ auth:
     kind: proxy
     provider: "proxy.com/auth"
 
-transform:
+transforms:
   postgres:
     header:
       add:
         - X-ORG-REG: token
       remove:
-        - X-GARBAGE: some
+        - X-GARBAGE
     json:
       add:
         - name: Alexander Pushkin
+        - age: 3
+      remove:
+        - name

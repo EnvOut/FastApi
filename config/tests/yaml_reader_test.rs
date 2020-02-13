@@ -172,12 +172,12 @@ mod yaml_lib {
         let docs = YamlLoader::load_from_str(data).unwrap();
         let doc = &docs[0];
 
-        println!("{:?}",doc);
-        let numeric = doc["numeric"][0].as_str().unwrap();
-        let stringified = doc["stringified"][0].as_str().unwrap();
-        let parts = doc["parts"][0].as_hash().unwrap();
-
-        println!("parts: {:?}",parts)
+//        println!("{:?}",doc);
+//        let numeric = doc["numeric"][0].as_str().unwrap();
+//        let stringified = doc["stringified"][0].as_str().unwrap();
+//        let parts = doc["parts"][0].as_hash().unwrap();
+//
+//        println!("parts: {:?}",parts)
 //        Hash(
 //            {
 //                String("numeric"): Array([String("X-ORG-HEADER=12345")]),

@@ -7,7 +7,7 @@ impl DataProvider for ProxyDataProvider{
         "proxy".into()
     }
 
-    fn call(&self, properties: Map<String, String>) -> Result<(), ()> {
+    fn call(&self, _properties: Map<String, String>) -> Result<(), ()> {
         unimplemented!()
     }
 }

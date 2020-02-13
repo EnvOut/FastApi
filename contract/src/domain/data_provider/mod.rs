@@ -14,6 +14,7 @@ pub trait DataProvider {
     fn call(&self, properties: Map<String, String>) -> Result<(), ()>;
 }
 
+#[warn(dead_code)]
 pub struct DataProviderRegistry {
     key_value_idx: HashMap<String, Box<dyn DataProvider>>,
     proxy_list: Vec<ProxyDataProvider>,

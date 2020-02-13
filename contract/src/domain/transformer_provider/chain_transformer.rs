@@ -1,33 +1,63 @@
+use std::sync::Arc;
+
 use crate::domain::web::Request;
+use json::JsonValue;
 
-pub struct Transformer{
-    // problem
-    lambda: fn(Box<dyn Request>) -> Box<dyn Request>,
+//pub struct RequestTransformer {
+//    pub lambda: Box<dyn Fn(&mut Request) -> &mut Request>
+//}
+//
+//impl RequestTransformer {
+//    pub fn transform<'a>(&self, request: &'a mut Request) -> &'a Request {
+//        (self.lambda)(request)
+//    }
+//
+//    fn new(lambda: Box<dyn Fn(&mut Request) -> &mut Request>) -> Self {
+//        Self { lambda }
+//    }
+//}
+
+pub struct ChainTransformer<T> {
+    chain: Vec<Arc<T>>
 }
 
-impl Transformer {
-    pub fn transform<R:Request>(&self, request: Box<R>) -> Box<R> {
-//    pub fn transform(&self, request: Box<dyn Request>) -> Box<dyn Request> {
-//        self.lambda(request)
-        unimplemented!()
+impl<T> ChainTransformer<T> {
+    pub fn with_transformer(&mut self, transformer: T) -> &mut Self {
+        self.chain.push(Arc::new(transformer));
+        self
     }
 
-    pub fn add_header(key: &String, value: &String) -> Transformer {
-//        let lambda: fn(Box<dyn Request>) -> Box<dyn Request> = |request| {
-////            let mut request = &r;
-////            request.set_header("","");
-////            request.set
-//
-//            request.get_body();
-//            unimplemented!()
-//        };
-//
-//        Transformer { lambda };
+    pub fn new() -> ChainTransformer<T> {
+        ChainTransformer { chain: vec![] }
+    }
 
-        unimplemented!()
+    pub fn get_transformers(&self) -> Vec<Arc<T>> {
+        self.chain.clone()
     }
 }
 
-pub struct ChainTransformer {
-    chain: Vec<Transformer>
+impl ChainTransformer<Request> {
+    pub fn new_request_transformer_chain() -> ChainTransformer<Request> { ChainTransformer::new() }
 }
+
+#[derive(Eq, PartialEq, Debug)]
+pub enum RequestTransformers {
+    HeaderAdd(String, String),
+    HeaderRemove(String),
+    JsonAdd(String, JsonValue),
+    JsonRemove(String),
+}
+
+impl RequestTransformers {
+    pub fn transform<'a>(&self, request: &'a mut Request) -> &'a Request {
+        let lambda: Box<dyn Fn(&mut Request) -> &mut Request> = match self {
+            RequestTransformers::HeaderAdd(name, value) => Box::new(move |req: &mut Request| req.with_header(name, value)),
+            RequestTransformers::HeaderRemove(name) => Box::new(move |req: &mut Request| req.drop_header(name)),
+            RequestTransformers::JsonAdd(property, value) => Box::new(move |req: &mut Request| req.json_add(property, value)),
+            RequestTransformers::JsonRemove(property) => Box::new(move |req: &mut Request| req.json_remove(property))
+        };
+        lambda(request)
+    }
+}
+
+pub type RequestTransformChain = ChainTransformer<RequestTransformers>;

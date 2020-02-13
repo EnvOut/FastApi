@@ -7,7 +7,7 @@ impl DataProvider for PostresDataProvider{
         "postgres".into()
     }
 
-    fn call(&self, properties: Map<String, String>) -> Result<(), ()> {
+    fn call(&self, _properties: Map<String, String>) -> Result<(), ()> {
         unimplemented!()
     }
 }

@@ -6,11 +6,57 @@ use std::collections::HashMap;
 use self::json::JsonValue;
 
 //pub trait Request where Self: Sized+Copy+Clone {
-pub trait Request {
-    fn set_header(&self, key: &String, value: &String) -> Self;
-    fn get_header(&self, key: &String) -> &String;
-    fn set_body(&self, body: String) -> Self;
-    fn get_body(&self) -> &'static String;
-    fn set_body_json(&self, json: JsonValue) -> Self;
-    fn get_body_json(&self) -> JsonValue;
+pub struct Request {
+    headers: HashMap<String, String>,
+    body: String,
+}
+
+impl Request {
+    pub fn new() -> Request {
+        Request { headers: HashMap::new(), body: "{}".into() }
+    }
+
+    pub fn with_header(&mut self, key: &String, value: &String) -> &mut Self {
+        let key = key.clone();
+        let value = value.clone();
+        self.headers.insert(key, value);
+        self
+    }
+
+    pub fn drop_header(&mut self, key: &String) -> &mut Self {
+        self.headers.remove(key.clone().as_str());
+        self
+    }
+
+    pub fn get_header(&self, key: &String) -> &String {
+        self.headers.get(key.as_str()).unwrap()
+    }
+    pub fn with_body(&mut self, body: String) -> &mut Self {
+        self.body = body;
+        &mut *self
+    }
+    pub fn get_body(&self) -> &String {
+        &self.body
+    }
+    pub fn with_body_json(&mut self, json: JsonValue) -> &mut Self {
+        self.body = json.dump();
+        &mut *self
+    }
+
+    pub fn json_add(&mut self, key: &str, value: &JsonValue) -> &mut Self {
+        let mut json = self.get_body_json();
+        json.insert(key, value.clone());
+        self.with_body_json(json)
+    }
+
+    pub fn json_remove(&mut self, key: &str) -> &mut Self {
+        let json = self.get_body_json()
+            .remove(key);
+        self.with_body_json(json)
+    }
+
+    pub fn get_body_json(&self) -> JsonValue {
+//        json::parse(&self.body.as_str())
+        json::parse(&self.body.as_str()).expect("can't read json from the body")
+    }
 }

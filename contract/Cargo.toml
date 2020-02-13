@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 linked-hash-map = "0.5.2"
 json="*"
+delegate="*"
