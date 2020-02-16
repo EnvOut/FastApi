@@ -10,3 +10,8 @@ edition = "2018"
 linked-hash-map = "0.5.2"
 json="*"
 delegate="*"
+isahc = { version ="0.8.2", features = ["json"]}
+core_extensions = "0.1.14"
+strfmt = "0.1.6"
+serde = { version = "*", features = ["derive"] }
+serde_json="*"

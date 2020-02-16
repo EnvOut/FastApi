@@ -24,6 +24,7 @@ use self::apigen_contract::domain::transformer_provider::chain_transformer::Requ
 use self::apigen_contract::domain::transformer_provider::TransformerProviderRegistry;
 use self::yaml_rust::{Yaml, YamlLoader};
 use self::yaml_rust::yaml::Hash;
+use crate::auth_parser::read_auths;
 
 pub struct YamlReader {
     data: String
@@ -52,7 +53,7 @@ impl ConfigReader<YamlReader> for YamlReader {
         let doc = &docs[0];
 
         let transformer_provider_registry = read_transformers(doc);
-
+        let auth_provider_registry = read_auths(doc);
         unimplemented!()
     }
 }

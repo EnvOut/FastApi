@@ -50,3 +50,4 @@ target/*
 RUST/RustBookRus/introduction/targe
 Cargo.lockt
 /.idea/
+Cargo.lock

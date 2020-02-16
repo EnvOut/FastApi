@@ -59,6 +59,10 @@ auth:
     base_auth:
       login: user
       password: qwerty
+    permissions:
+      - create
+      - delete
+      - update
 
   siber_static_token:
     kind: static
