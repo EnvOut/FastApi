@@ -8,8 +8,8 @@ use serde::{de, Deserialize, Deserializer};
 
 //pub mod proxy_auth;
 pub mod base_auth;
-pub mod oauth2base_auth;
-pub mod proxy_token_auth;
+//pub mod oauth2base_auth;
+//pub mod proxy_token_auth;
 
 pub trait AuthProvider {
     fn authenticate(&mut self) -> Result<(), AuthResponse>;
