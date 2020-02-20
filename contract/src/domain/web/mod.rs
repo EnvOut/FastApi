@@ -1,11 +1,9 @@
-//#[macro_use]
 extern crate json;
 
 use std::collections::HashMap;
 
 use self::json::JsonValue;
 
-//pub trait Request where Self: Sized+Copy+Clone {
 pub struct Request {
     headers: HashMap<String, String>,
     body: String,

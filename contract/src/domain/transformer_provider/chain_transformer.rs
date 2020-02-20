@@ -3,20 +3,6 @@ use std::sync::Arc;
 use crate::domain::web::Request;
 use json::JsonValue;
 
-//pub struct RequestTransformer {
-//    pub lambda: Box<dyn Fn(&mut Request) -> &mut Request>
-//}
-//
-//impl RequestTransformer {
-//    pub fn transform<'a>(&self, request: &'a mut Request) -> &'a Request {
-//        (self.lambda)(request)
-//    }
-//
-//    fn new(lambda: Box<dyn Fn(&mut Request) -> &mut Request>) -> Self {
-//        Self { lambda }
-//    }
-//}
-
 pub struct ChainTransformer<T> {
     chain: Vec<Arc<T>>
 }

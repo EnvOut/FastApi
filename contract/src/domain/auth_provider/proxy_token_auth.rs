@@ -3,7 +3,6 @@ use std::time::SystemTime;
 
 use core_extensions::integer_extensions::ToTime;
 use core_extensions::std_::collections::HashMap;
-//extern crate serde;
 use isahc::prelude::*;
 use serde::{de, Deserialize, Deserializer};
 
@@ -40,17 +39,12 @@ impl AuthProvider for ProxyTokenAuthProvider {
             .send()
             .unwrap();
 
-//        match response.status().as_u16() {
-//            200 => (),
-//            _ => ()
-//        }
         let mut roles = match response.status().as_u16() {
             200 => response.json::<TokenProxyResponse>().map_err(|e| ()),
             _ => Err(())
         }.unwrap()
             .roles;
         self.roles = roles;
-//        let result = AuthResponse { status: AuthStatus::Success, roles: roles.to_vec() };
         Ok(())
     }
 

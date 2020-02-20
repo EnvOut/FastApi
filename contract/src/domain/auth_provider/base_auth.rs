@@ -1,18 +1,12 @@
 use std::time::Duration;
 
-use crate::domain::auth_provider::{AuthError, AuthProvider, AuthResponse, AuthStatus, Roles};
+use crate::domain::auth_provider::{AuthError, AuthProvider, AuthResponse, AuthStatus, BaseCredential, Roles};
 
 //#[derive(Eq, PartialEq)]
 pub struct BaseAuthProvider {
     credentials: BaseCredential,
     roles: Roles,
     external_url: String,
-}
-
-
-pub struct BaseCredential {
-    login: String,
-    password: String,
 }
 
 impl AuthProvider for BaseAuthProvider {
@@ -25,19 +19,18 @@ impl AuthProvider for BaseAuthProvider {
 
         fn check_roles(roles: &Roles, required_roles: &Roles) -> bool {
             required_roles.into_iter()
-                .all(|i|roles.contains(i))
+                .all(|i| roles.contains(i))
         }
 
-        let status = ||isahc::get(&self.external_url).unwrap().status().as_u16();
+        let status = || isahc::get(&self.external_url).unwrap().status().as_u16();
 
         match check_roles(&self.roles, &required_roles) {
             true => match status() {
                 200 => Ok(AuthStatus::Success),
-                302 => Ok(AuthStatus::Denied),
-                401 => Ok(AuthStatus::Denied),
-                _ => Err(AuthError::WrongStatusCode)
+                302 | 401 => Ok(AuthStatus::Denied),
+                _ => Err(AuthError::NotImplementedStatusCode)
             },
-            false => Ok(AuthStatus::WrongRole { supported: self.roles.to_vec(), provided: required_roles.to_vec()  })
+            false => Ok(AuthStatus::WrongRole { supported: self.roles.to_vec(), provided: required_roles.to_vec() })
         }
     }
 }

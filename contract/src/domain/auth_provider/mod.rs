@@ -1,14 +1,15 @@
 extern crate isahc;
+extern crate strfmt;
 
 use std::collections::HashMap;
-extern crate strfmt;
+
+use serde::{de, Deserialize, Deserializer};
+
 
 //pub mod proxy_auth;
 pub mod base_auth;
-//pub mod oauth2_auth;
+pub mod oauth2base_auth;
 pub mod proxy_token_auth;
-
-use serde::{de, Deserialize, Deserializer};
 
 pub trait AuthProvider {
     fn authenticate(&mut self) -> Result<(), AuthResponse>;
@@ -54,5 +55,16 @@ pub enum AuthException {
 }
 
 pub enum AuthError {
-    WrongStatusCode
+    NotImplementedStatusCode,
+    WrongStatusCode,
+    CantParseResponse
+}
+
+pub struct BaseCredential {
+    login: String,
+    password: String,
+}
+
+pub struct AppToken {
+    token: String
 }
