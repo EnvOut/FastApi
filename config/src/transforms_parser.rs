@@ -122,7 +122,7 @@ pub fn read_transformer(transformer_doc: &Yaml) -> RequestTransformChain {
 
 #[cfg(test)]
 mod tests {
-    use log::{info, trace, warn};
+    // use log::{info, trace, warn};
     use yaml_rust::YamlLoader;
 
     use apigen_contract::domain::transformer_provider::chain_transformer::RequestTransformers;

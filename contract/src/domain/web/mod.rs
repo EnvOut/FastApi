@@ -4,14 +4,44 @@ use std::collections::HashMap;
 
 use self::json::JsonValue;
 
-pub struct Request {
+pub struct HttpContent {
     headers: HashMap<String, String>,
     body: String,
 }
 
+pub enum HttpMethods {
+    GET,
+    POST,
+    PATCH,
+    PUT,
+    DELETE,
+    HEAD,
+    ALL,
+}
+
+pub struct Request {
+    pub content: HttpContent,
+    pub method: HttpMethods,
+}
+
 impl Request {
-    pub fn new() -> Request {
-        Request { headers: HashMap::new(), body: "{}".into() }
+    pub fn get_content(&mut self) -> &mut HttpContent {
+        &mut self.content
+    }
+}
+
+pub type Response = HttpContent;
+
+enum HandlerErrors {
+    ValidationException {
+        message: String
+    },
+    IllegalArgument {},
+}
+
+impl HttpContent {
+    pub fn new() -> HttpContent {
+        HttpContent { headers: HashMap::new(), body: "{}".into() }
     }
 
     pub fn with_header(&mut self, key: &String, value: &String) -> &mut Self {
@@ -54,7 +84,6 @@ impl Request {
     }
 
     pub fn get_body_json(&self) -> JsonValue {
-//        json::parse(&self.body.as_str())
         json::parse(&self.body.as_str()).expect("can't read json from the body")
     }
 }

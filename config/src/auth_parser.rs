@@ -4,10 +4,11 @@ use apigen_contract::domain::auth_provider::{AuthProvider, AuthProviderRegistry}
 
 pub fn read_auth(auth_doc: &Yaml) -> Box<dyn AuthProvider> {
     let kind = &auth_doc["kind"];
-    let rr = match kind.as_str().unwrap() {
-        "basic" => "",
-        _ => {}
-    };
+    // let rr = match kind.as_str().unwrap() {
+    //     "basic" => "",
+    //     _ => {}
+    // };
+    unimplemented!()
 }
 
 pub fn read_auths(auth_docs: &Yaml) -> AuthProviderRegistry {

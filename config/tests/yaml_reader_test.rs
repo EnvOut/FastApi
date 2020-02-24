@@ -102,10 +102,11 @@ mod tdd {
 }
 
 mod yaml_lib {
+    use std::ptr::hash;
+
     use yaml_rust::{YamlEmitter, YamlLoader};
 
     use crate::FULL_YAML_DATA;
-    use std::ptr::hash;
 
     #[test]
     fn read_array() {
@@ -172,7 +173,7 @@ mod yaml_lib {
         let docs = YamlLoader::load_from_str(data).unwrap();
         let doc = &docs[0];
 
-//        println!("{:?}",doc);
+        //        println!("{:?}",doc);
 //        let numeric = doc["numeric"][0].as_str().unwrap();
 //        let stringified = doc["stringified"][0].as_str().unwrap();
 //        let parts = doc["parts"][0].as_hash().unwrap();
@@ -185,7 +186,20 @@ mod yaml_lib {
 //                String("parts"): Array([Hash({String("Authorization"): String("Basic YWxhZGRpbjpvcGVuc2VzYW1l")})])
 //            }
 //        )
+    }
 
+    #[test]
+    fn read_mongo_query() {
+        let data = "
+            quarry:
+                - create:
+                    - code: 'some'
+                    - type: find
+            ";
+        let docs = YamlLoader::load_from_str(data).unwrap();
+        let doc = &docs[0];
+        println!("{:?}", doc)
 
+        
     }
 }

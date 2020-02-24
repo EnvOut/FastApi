@@ -2,16 +2,9 @@ extern crate apigen_contract;
 extern crate simple_logger;
 extern crate yaml_rust;
 
-use std::collections::hash_map::RandomState;
 use std::fs;
-use std::fs::File;
 use std::io::Read;
-use std::iter::Map;
 use std::path::Path;
-use std::slice::Iter;
-
-use json::JsonValue;
-use json::number::Number;
 
 use apigen_contract::config_contract::ConfigReader;
 
@@ -19,11 +12,7 @@ use crate::transforms_parser::read_transformers;
 
 use self::apigen_contract::domain::endpoint::EndpointRegistry;
 use self::apigen_contract::domain::RootConfig;
-use self::apigen_contract::domain::transformer_provider::chain_transformer::RequestTransformChain;
-use self::apigen_contract::domain::transformer_provider::chain_transformer::RequestTransformers;
-use self::apigen_contract::domain::transformer_provider::TransformerProviderRegistry;
 use self::yaml_rust::{Yaml, YamlLoader};
-use self::yaml_rust::yaml::Hash;
 use crate::auth_parser::read_auths;
 
 pub struct YamlReader {

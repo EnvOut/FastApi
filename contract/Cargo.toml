@@ -15,3 +15,6 @@ core_extensions = "0.1.14"
 strfmt = "0.1.6"
 serde = { version = "*", features = ["derive"] }
 serde_json="*"
+liquid = "0.17.0"
+postgres="*"
+serde_postgres="*"

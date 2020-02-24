@@ -8,11 +8,13 @@ edition = "2018"
 
 [dependencies]
 apigen_contract = { path = "../contract" }
-log = "*"
+log = "0.4.8"
 serde = "1.0"
+serde_derive = "*"
 serde_yaml = "0.8"
 yaml-rust = "0.4"
 lazy_static = "1.4.0"
 rust-embed="5.2.0"
-simple_logger="*"
+simple_logger="1.5.0"
 json="*"
+#liquid = "0.17"

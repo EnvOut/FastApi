@@ -5,7 +5,6 @@ use std::collections::HashMap;
 
 use serde::{de, Deserialize, Deserializer};
 
-
 //pub mod proxy_auth;
 pub mod base_auth;
 //pub mod oauth2base_auth;
@@ -35,7 +34,23 @@ pub struct Role {
     name: String
 }
 
+// impl Into<Roles> for Vec<String> {
+//     fn into(self) -> Roles {
+//         self.into_iter()
+//             .map(|i| Role { name: i })
+//             .collect()
+//     }
+// }
+
 pub type Roles = Vec<Role>;
+
+// impl From<Vec<String>> for Roles {
+//     fn from(vector: Vec<String>) -> Self {
+//         vector.into_iter()
+//             .map(|i| Role { name: i })
+//             .collect()
+//     }
+// }
 
 pub enum AuthStatus {
     Success,
@@ -57,7 +72,7 @@ pub enum AuthException {
 pub enum AuthError {
     NotImplementedStatusCode,
     WrongStatusCode,
-    CantParseResponse
+    CantParseResponse,
 }
 
 pub struct BaseCredential {

@@ -1,7 +1,8 @@
 use std::sync::Arc;
 
-use crate::domain::web::Request;
 use json::JsonValue;
+
+use crate::domain::web::Request;
 
 pub struct ChainTransformer<T> {
     chain: Vec<Arc<T>>
@@ -37,10 +38,22 @@ pub enum RequestTransformers {
 impl RequestTransformers {
     pub fn transform<'a>(&self, request: &'a mut Request) -> &'a Request {
         let lambda: Box<dyn Fn(&mut Request) -> &mut Request> = match self {
-            RequestTransformers::HeaderAdd(name, value) => Box::new(move |req: &mut Request| req.with_header(name, value)),
-            RequestTransformers::HeaderRemove(name) => Box::new(move |req: &mut Request| req.drop_header(name)),
-            RequestTransformers::JsonAdd(property, value) => Box::new(move |req: &mut Request| req.json_add(property, value)),
-            RequestTransformers::JsonRemove(property) => Box::new(move |req: &mut Request| req.json_remove(property))
+            RequestTransformers::HeaderAdd(name, value) => Box::new(move |req: &mut Request| {
+                req.get_content().with_header(name, value);
+                req
+            }),
+            RequestTransformers::HeaderRemove(name) => Box::new(move |req: &mut Request| {
+                req.get_content().drop_header(name);
+                req
+            }),
+            RequestTransformers::JsonAdd(property, value) => Box::new(move |req: &mut Request| {
+                req.get_content().json_add(property, value);
+                req
+            }),
+            RequestTransformers::JsonRemove(property) => Box::new(move |req: &mut Request| {
+                req.get_content().json_remove(property);
+                req
+            }),
         };
         lambda(request)
     }
