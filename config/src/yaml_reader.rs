@@ -28,7 +28,7 @@ impl YamlReader {
 impl ConfigReader<YamlReader> for YamlReader {
     fn new(config_path: &Path) -> YamlReader {
         let mut data: String = "".into();
-        let file = fs::File::open(&config_path)
+        let _file = fs::File::open(&config_path)
 //        let file = fs::File::open(&config_path)
             .map(|mut f| f.read_to_string(&mut data))
             .ok().expect(format!("Can't find config file with path: \"{:?}\"", &config_path).as_str());
@@ -41,8 +41,8 @@ impl ConfigReader<YamlReader> for YamlReader {
         let docs = YamlLoader::load_from_str(self.data.as_str()).unwrap();
         let doc = &docs[0];
 
-        let transformer_provider_registry = read_transformers(doc);
-        let auth_provider_registry = read_auths(doc);
+        let _transformer_provider_registry = read_transformers(doc);
+        let _auth_provider_registry = read_auths(doc);
         unimplemented!()
     }
 }
@@ -52,8 +52,8 @@ fn read_endpoints(doc: &Yaml) -> EndpointRegistry {
 
     let first = &endpoints["first"];
 
-    let path = &first["path"].as_str().unwrap();
+    let _path = &first["path"].as_str().unwrap();
 
-    let path_2 = *&doc["endpoints"]["first"]["path"].as_str().unwrap();
+    let _path_2 = *&doc["endpoints"]["first"]["path"].as_str().unwrap();
     unimplemented!()
 }

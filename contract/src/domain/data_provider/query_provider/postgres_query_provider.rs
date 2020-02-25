@@ -12,7 +12,7 @@ pub struct PostgresQueryProvider {
 }
 
 impl QueryProvider for PostgresQueryProvider {
-    fn prepare_query(&mut self, context: DataContext) -> String {
+    fn prepare_query(&mut self, _context: DataContext) -> String {
         let template = liquid::ParserBuilder::with_liquid()
             .build()
             .parse("Liquid! {{num | minus: 2}}").unwrap();

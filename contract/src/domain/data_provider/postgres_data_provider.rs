@@ -1,44 +1,39 @@
-use std::error::Error;
-use std::iter::Map;
-use std::sync::Arc;
+use postgres::{Client, Column, Config, Row};
 
+use crate::domain::data_provider::{CalProperties, DataProvider, DataProviderResult};
+use core_extensions::std_::collections::hash_map::RandomState;
 use core_extensions::std_::collections::HashMap;
-use core_extensions::TypeIdentity;
-use postgres::{Column, Row};
-use postgres::types::Type;
-use serde::de::Unexpected::Other;
-use serde_json::json;
-use serde_json::value::Value;
-use serde_postgres::Deserializer;
+use serde_json::Value;
 
-use crate::domain::data_provider::DataProvider;
-
-pub struct PostgresDataProvider {}
+pub struct PostgresDataProvider {
+    config: Config,
+    client: Client,
+}
 
 impl DataProvider for PostgresDataProvider {
     fn get_name(&self) -> String {
         "postgres".into()
     }
 
-    fn call(&self, _properties: Map<String, String>) -> Result<(), ()> {
-        unimplemented!()
+    fn call(&self, properties: CalProperties, _options: HashMap<String, Value, RandomState>) -> Result<DataProviderResult, ()> {
+        match properties {
+            CalProperties::Postgres => unimplemented!(),
+            _ => Err(())
+        }
     }
 }
 
 mod tests {
-    use std::any::Any;
-
-    use core_extensions::std_::collections::HashMap;
-    use postgres::Column;
-    use serde_json::Value;
-
     use crate::domain::data_provider::postgres_utils::row_to_map;
+    use std::collections::HashMap;
+    use serde_json::Value;
+    use postgres::Config;
 
     #[test]
     fn try_pg_driver() {
         use postgres::{Client, NoTls};
 
-        let mut config = Client::configure();
+        let mut config: Config = Client::configure();
         config.host("localhost");
         config.port(54320);
         config.dbname("postgres");

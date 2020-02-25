@@ -3,7 +3,7 @@ use yaml_rust::Yaml;
 use apigen_contract::domain::auth_provider::{AuthProvider, AuthProviderRegistry};
 
 pub fn read_auth(auth_doc: &Yaml) -> Box<dyn AuthProvider> {
-    let kind = &auth_doc["kind"];
+    let _kind = &auth_doc["kind"];
     // let rr = match kind.as_str().unwrap() {
     //     "basic" => "",
     //     _ => {}
@@ -11,7 +11,7 @@ pub fn read_auth(auth_doc: &Yaml) -> Box<dyn AuthProvider> {
     unimplemented!()
 }
 
-pub fn read_auths(auth_docs: &Yaml) -> AuthProviderRegistry {
+pub fn read_auths(_auth_docs: &Yaml) -> AuthProviderRegistry {
     unimplemented!()
 }
 
@@ -20,7 +20,7 @@ mod tests {
     use yaml_rust::YamlLoader;
 
     use crate::auth_parser::read_auths;
-    use crate::yaml_reader::YamlReader;
+    
 
     const YAML_DATA: &str = r#"
     auth:
@@ -62,7 +62,7 @@ mod tests {
 
         let transforms_doc = &doc["auth"];
 
-        let registry = read_auths(transforms_doc);
+        let _registry = read_auths(transforms_doc);
     }
 
     #[test]
@@ -72,6 +72,6 @@ mod tests {
 
         println!("{:?}", doc);
 
-        let siber_static_base = &doc["auth"]["siber_static_base"];
+        let _siber_static_base = &doc["auth"]["siber_static_base"];
     }
 }

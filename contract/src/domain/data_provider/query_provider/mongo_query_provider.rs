@@ -6,7 +6,7 @@ pub struct MongoQueryProvider{
 }
 
 impl QueryProvider for MongoQueryProvider {
-    fn prepare_query(&mut self, context: DataContext) -> String {
+    fn prepare_query(&mut self, _context: DataContext) -> String {
         unimplemented!()
     }
 

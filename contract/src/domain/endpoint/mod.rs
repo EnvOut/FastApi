@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::ops::Index;
+
 
 use crate::domain::web::{Request, Response};
 

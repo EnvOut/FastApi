@@ -1,5 +1,8 @@
-use crate::domain::data_provider::DataProvider;
-use std::iter::Map;
+use core_extensions::std_::collections::hash_map::RandomState;
+use core_extensions::std_::collections::HashMap;
+use serde_json::Value;
+
+use crate::domain::data_provider::{CalProperties, DataProvider, DataProviderResult};
 
 pub struct ProxyDataProvider{}
 impl DataProvider for ProxyDataProvider{
@@ -7,7 +10,7 @@ impl DataProvider for ProxyDataProvider{
         "proxy".into()
     }
 
-    fn call(&self, _properties: Map<String, String>) -> Result<(), ()> {
+    fn call(&self, properties: CalProperties, options: HashMap<String, Value, RandomState>) -> Result<DataProviderResult, ()> {
         unimplemented!()
     }
 }

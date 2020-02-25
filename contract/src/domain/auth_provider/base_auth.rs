@@ -13,7 +13,7 @@ impl AuthProvider for BaseAuthProvider {
     }
 
     fn authorize(&mut self, required_roles: Roles) -> Result<AuthStatus, AuthError> {
-        let BaseCredential { login, password } = &self.credentials;
+        let BaseCredential { login: _, password: _ } = &self.credentials;
 
         fn check_roles(roles: &Roles, required_roles: &Roles) -> bool {
             required_roles.into_iter()

@@ -8,7 +8,7 @@ pub fn row_to_map(row: Row) -> HashMap<String, Value> {
     println!("{:?}", columns);
     // let map: Map<&str, Value> = columns.into_iter()
 
-    let mut result: HashMap<String, Value> = HashMap::new();
+    let _result: HashMap<String, Value> = HashMap::new();
 
     // let map: HashMap<String, Value> = columns.into_iter()
     columns.into_iter()

@@ -5,9 +5,9 @@ extern crate lazy_static;
 #[macro_use]
 extern crate rust_embed;
 
-use std::collections::HashMap;
 
-use apigen_contract::domain::RootConfig;
+
+
 
 const FULL_YAML_DATA: &str = "
             endpoints:
@@ -62,7 +62,7 @@ const FULL_YAML_DATA: &str = "
 
 #[test]
 fn yaml_lib_test() {
-    use yaml_rust::{YamlLoader, YamlEmitter};
+    use yaml_rust::{YamlLoader};
 
     let docs = YamlLoader::load_from_str("[1, 2, 3]").unwrap();
     let doc = &docs[0]; // select the first document
@@ -70,9 +70,9 @@ fn yaml_lib_test() {
 }
 
 mod tdd {
-    use std::env::current_dir;
-    use std::fs::File;
-    use std::path::{Path, PathBuf};
+    
+    
+    
 
     use apigen_config::yaml_reader::YamlReader;
     use apigen_contract::config_contract::ConfigReader;
@@ -102,15 +102,15 @@ mod tdd {
 }
 
 mod yaml_lib {
-    use std::ptr::hash;
+    
 
-    use yaml_rust::{YamlEmitter, YamlLoader};
+    use yaml_rust::{YamlLoader};
 
     use crate::FULL_YAML_DATA;
 
     #[test]
     fn read_array() {
-        use yaml_rust::{YamlLoader, YamlEmitter};
+        use yaml_rust::{YamlLoader};
 
         let docs = YamlLoader::load_from_str("[1, 2, 3]").unwrap();
         let doc = &docs[0]; // select the first document
@@ -125,7 +125,7 @@ mod yaml_lib {
 
         let first = &endpoints["first"];
 
-        let path = &first["path"].as_str().unwrap();
+        let _path = &first["path"].as_str().unwrap();
 
         let path_2 = *&doc["endpoints"]["first"]["path"].as_str().unwrap();
 
@@ -171,7 +171,7 @@ mod yaml_lib {
          - Authorization: Basic YWxhZGRpbjpvcGVuc2VzYW1l
         ";
         let docs = YamlLoader::load_from_str(data).unwrap();
-        let doc = &docs[0];
+        let _doc = &docs[0];
 
         //        println!("{:?}",doc);
 //        let numeric = doc["numeric"][0].as_str().unwrap();
