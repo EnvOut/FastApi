@@ -15,7 +15,7 @@ impl DataProvider for PostgresDataProvider {
         "postgres".into()
     }
 
-    fn call(&self, properties: CalProperties, _options: HashMap<String, Value, RandomState>) -> Result<DataProviderResult, ()> {
+    fn call(&self, properties: CalProperties, _options: HashMap<String, Value>) -> Result<DataProviderResult, ()> {
         match properties {
             CalProperties::Postgres => unimplemented!(),
             _ => Err(())
@@ -24,10 +24,10 @@ impl DataProvider for PostgresDataProvider {
 }
 
 mod tests {
-    use crate::domain::data_provider::postgres_utils::row_to_map;
     use std::collections::HashMap;
     use serde_json::Value;
     use postgres::Config;
+    use crate::domain::data_provider::postgres_data_provider::postgres_utils::row_to_map;
 
     #[test]
     fn try_pg_driver() {

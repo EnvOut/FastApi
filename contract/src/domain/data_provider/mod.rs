@@ -6,19 +6,18 @@ use std::collections::HashMap;
 use linked_hash_map::LinkedHashMap;
 use serde_json::Value;
 
-use crate::domain::data_provider::postgres_data_provider::PostgresDataProvider;
 use crate::domain::data_provider::proxy_data_provider::ProxyDataProvider;
 use crate::domain::data_provider::mongo_data_provider::provider::MongoDataProvider;
+use crate::domain::data_provider::postgres_data_provider::provider::PostgresDataProvider;
 
 pub mod mongo_data_provider;
 pub mod postgres_data_provider;
 pub mod proxy_data_provider;
 pub mod test_data_provider;
 pub mod query_provider;
-pub mod postgres_utils;
 
 pub enum DataProviderResult {
-    Single(HashMap<String, Value>),
+    Single(Value),
     Multiple(Vec<HashMap<String, Value>>),
 }
 

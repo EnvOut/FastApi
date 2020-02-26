@@ -11,6 +11,17 @@ impl DataProvider for TestDataProvider {
     }
 
     fn call(&self, properties: CalProperties, options: HashMap<String, Value, RandomState>) -> Result<DataProviderResult, ()> {
-        unimplemented!()
+        let data = r#"
+        {
+            "name": "John Doe",
+            "age": 43,
+            "phones": [
+                "+44 1234567",
+                "+44 2345678"
+            ]
+        }"#;
+        let value = serde_json::to_value(data).unwrap();
+        let result = DataProviderResult::Single(value);
+        Ok(result)
     }
 }

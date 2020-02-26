@@ -69,7 +69,7 @@ impl DataProvider for MongoDataProvider {
                         let result: DataProviderResult = match singe {
                             true => {
                                 let execution_result = collection.find_one(document, mongo_options.find_one()).expect("Document not found").unwrap();
-                                let result: HashMap<String, Value> = bson::from_bson(bson::Bson::Document(execution_result)).unwrap();
+                                let result: Value = bson::from_bson(bson::Bson::Document(execution_result)).unwrap();
                                 DataProviderResult::Single(result)
                             }
                             false => {
