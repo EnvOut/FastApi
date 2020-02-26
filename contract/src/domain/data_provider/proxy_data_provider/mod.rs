@@ -10,7 +10,7 @@ impl DataProvider for ProxyDataProvider{
         "proxy".into()
     }
 
-    fn call(&self, properties: CalProperties, options: HashMap<String, Value, RandomState>) -> Result<DataProviderResult, ()> {
+    fn call(&self, properties: CalProperties, options: HashMap<String, Value>) -> Result<DataProviderResult, ()> {
         unimplemented!()
     }
 }
